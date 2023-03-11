@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { config } from "dotenv";
+config();
 
 export default class UserController {
   static async register(req: Request, res: Response) {
@@ -40,7 +43,8 @@ export default class UserController {
       await user.save();
       res.status(201).json({ message: "Usuário criado com sucesso!" });
     } catch (error) {
-      res.status(500).json({ message: error });
+      console.log(error);
+      res.status(500).json({ messag: "Erro no servidor!" });
     }
   }
   static async login(req: Request, res: Response) {
@@ -62,6 +66,20 @@ export default class UserController {
     const checkPass = await bcrypt.compare(password, user.password);
     if (!checkPass) {
       return res.status(422).json({ message: "Usuário ou senha incorretos" });
+    }
+
+    try {
+      const secret = process.env.SECRET;
+      const token = jwt.sign(
+        {
+          id: user._id,
+        },
+        secret ? secret : ""
+      );
+      res.status(200).json({ message: "Logado com sucesso!", token });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ messag: "Erro no servidor!" });
     }
   }
 }
