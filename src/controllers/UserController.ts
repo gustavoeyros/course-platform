@@ -34,13 +34,34 @@ export default class UserController {
     const user = new User({
       name,
       email,
-      password,
+      password: passHash,
     });
     try {
       await user.save();
       res.status(201).json({ message: "Usuário criado com sucesso!" });
     } catch (error) {
       res.status(500).json({ message: error });
+    }
+  }
+  static async login(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email: email });
+    if (!email) {
+      return res.status(422).json({ message: `O campo email é obrigatório` });
+    }
+    if (!password) {
+      return res.status(422).json({ message: `O campo senha é obrigatório` });
+    }
+
+    //verificar se o usuário existe
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+    //verificar se a senha bate com a do bd
+    const checkPass = await bcrypt.compare(password, user.password);
+    if (!checkPass) {
+      return res.status(422).json({ message: "Usuário ou senha incorretos" });
     }
   }
 }
