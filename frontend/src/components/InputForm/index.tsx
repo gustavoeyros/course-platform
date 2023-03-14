@@ -4,11 +4,17 @@ interface IInput {
   type: string;
   placeholder: string;
   hasEmpty: boolean | null | undefined;
+  inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const InputForm = ({ type, placeholder, hasEmpty }: IInput) => {
+const InputForm = ({ type, placeholder, hasEmpty, inputRef }: IInput) => {
   return (
-    <InputStyled type={type} placeholder={placeholder} hasEmpty={hasEmpty} />
+    <InputStyled
+      ref={inputRef}
+      type={type}
+      placeholder={placeholder}
+      hasEmpty={hasEmpty}
+    />
   );
 };
 
