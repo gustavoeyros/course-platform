@@ -4,6 +4,6 @@ import checkToken from "../helpers/checkToken";
 
 const router = Router();
 
-router.get("/upload", checkToken, CourseController.upload);
+router.post("/upload", checkToken, CourseController.upload);
 
 export default router;
