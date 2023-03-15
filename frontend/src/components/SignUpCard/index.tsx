@@ -40,6 +40,35 @@ const SignUpCard = () => {
       : setConfirmPasswordError(false);
   };
 
+  if (
+    nameRef.current?.value.length !== 0 &&
+    emailRef.current?.value.length !== 0 &&
+    passwordRef.current?.value.length !== 0 &&
+    confirmPasswordRef.current?.value.length !== 0
+  ) {
+    const data = {
+      name: nameRef.current?.value,
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value,
+      confirmpassword: confirmPasswordRef.current?.value,
+    };
+
+    fetch("http://localhost:3000/users/register", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
   return (
     <Container>
       <Card>
@@ -72,7 +101,7 @@ const SignUpCard = () => {
           Already have an account?{" "}
           <span onClick={() => navigate("/")}>Sign Up</span>
         </SignInContianer>
-        <ButtonForm onClick={submitHandler} />
+        <ButtonForm onClick={submitHandler}>Sign Up</ButtonForm>
       </Card>
     </Container>
   );

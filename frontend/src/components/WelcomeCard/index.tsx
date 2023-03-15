@@ -67,7 +67,7 @@ const WelcomeCard = () => {
           Don't have an account?{" "}
           <span onClick={() => navigate("/signup")}>Sign Up</span>
         </SignUpContainer>
-        <ButtonForm onClick={submitHandler} />
+        <ButtonForm onClick={submitHandler}>Sign In</ButtonForm>
       </Card>
     </Container>
   );
