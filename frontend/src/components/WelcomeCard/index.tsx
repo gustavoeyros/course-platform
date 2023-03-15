@@ -1,9 +1,11 @@
-import { Container, Card } from "./styled";
+import { Container, Card, SignUpContainer } from "./styled";
 import InputForm from "../InputForm";
 import ButtonForm from "../ButtonForm";
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const WelcomeCard = () => {
+  const navigate = useNavigate();
   const [emailError, setEmailError] = useState<boolean | null>(null);
   const [passwordError, setPasswordError] = useState<boolean | null>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -50,6 +52,10 @@ const WelcomeCard = () => {
           placeholder="password"
           hasEmpty={passwordError}
         />
+        <SignUpContainer>
+          Don't have an account?{" "}
+          <span onClick={() => navigate("/signup")}>Sign Up</span>
+        </SignUpContainer>
         <ButtonForm onClick={submitHandler} />
       </Card>
     </Container>
