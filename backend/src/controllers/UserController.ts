@@ -31,7 +31,7 @@ export default class UserController {
 
     //criação da senha criptografada
     const salt = await bcrypt.genSalt(12);
-    const passHash = await bcrypt.hash(password, salt);
+    const passHash = password ? await bcrypt.hash(password, salt) : "";
 
     //registro do usuário
     const user = new User({
