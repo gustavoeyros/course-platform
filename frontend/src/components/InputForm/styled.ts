@@ -6,8 +6,8 @@ interface IInputStyled {
 
 export const InputStyled = styled.input<IInputStyled>`
   outline: none;
-  border: none;
-  ${({ hasEmpty }) => (hasEmpty === false ? "border-color: red;" : "")}
+  ${({ hasEmpty }) =>
+    hasEmpty === false ? "border: 1px solid red;" : "border: none;"}
   background-color: white;
   width: 200px;
   height: 30px;

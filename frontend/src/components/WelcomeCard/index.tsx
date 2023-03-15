@@ -12,29 +12,40 @@ const WelcomeCard = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = () => {
-    /*  if (emailError.current) {
-      emailError.current.value.length !== 0
+    if (emailRef.current) {
+      emailRef.current.value.length !== 0
         ? setEmailError(true)
         : setEmailError(false);
-    } */
+    }
+    if (passwordRef.current) {
+      passwordRef.current.value.length !== 0
+        ? setPasswordError(true)
+        : setPasswordError(false);
+    }
     const data = {
       email: emailRef.current?.value,
       password: passwordRef.current?.value,
     };
-    fetch("http://localhost:3000/users/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        return res.json();
+    if (
+      emailRef.current?.value.length !== 0 &&
+      passwordRef.current?.value.length !== 0
+    ) {
+      alert("oi");
+      fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json",
+        },
       })
-      .then((data) => {
-        console.log(data);
-      });
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
+    }
   };
   return (
     <Container>

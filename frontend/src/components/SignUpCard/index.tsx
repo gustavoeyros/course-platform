@@ -17,7 +17,7 @@ const SignUpCard = () => {
         <InputForm type="password" placeholder="confirm password" />
         <SignInContianer>
           Already have an account?{" "}
-          <span onClick={() => navigate("/")}>Sign In</span>
+          <span onClick={() => navigate("/")}>Sign Up</span>
         </SignInContianer>
         <ButtonForm onClick={() => ""} />
       </Card>
