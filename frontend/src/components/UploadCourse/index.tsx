@@ -1,3 +1,4 @@
+import axios from "axios";
 import InputForm from "../InputForm";
 import {
   Container,
@@ -7,28 +8,58 @@ import {
   LabelFile,
   FileContainer,
 } from "./styled";
-import { useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import ButtonForm from "../ButtonForm";
 const UploadCourse = () => {
+  const [image, setImage] = useState<any>("");
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
+
+  const secure_url = import.meta.env.VITE_CLOUDNAME;
+
+  const uploadImage = (files: any) => {
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", "ms6fdgh0");
+
+    fetch(`https://api.cloudinary.com/v1_1/${secure_url}/image/upload`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault();
+  };
   return (
     <Container>
       <UploadCard>
         <h1>Upload Course</h1>
-        <ContentCard>
+        <ContentCard onSubmit={submitHandler}>
           <InputForm
             type="text"
             placeholder="description"
             inputRef={descriptionRef}
           />
           <FileContainer>
-            <InputFile type="file" id="fileInput" />
-            <LabelFile htmlFor="fileInput" ref={fileRef}>
-              Upload Image
-            </LabelFile>
+            <InputFile
+              type="file"
+              id="fileInput"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                if (event.target.files) {
+                  setImage(event.target.files[0]);
+                }
+              }}
+            />
+            <LabelFile htmlFor="fileInput">Upload Image</LabelFile>
           </FileContainer>
-          <ButtonForm onClick={() => ""}>Send</ButtonForm>
+          <ButtonForm onClick={uploadImage}>Send</ButtonForm>
         </ContentCard>
       </UploadCard>
     </Container>
