@@ -36,4 +36,9 @@ export default class CourseController {
       res.status(500).json({ messag: "Erro no servidor!" });
     }
   }
+
+  static async allCourses(req: Request, res: Response) {
+    const courses = await Course.find();
+    res.status(200).json({ message: courses });
+  }
 }
