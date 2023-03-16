@@ -1,4 +1,3 @@
-import axios from "axios";
 import InputForm from "../InputForm";
 import {
   Container,
@@ -16,7 +15,7 @@ const UploadCourse = () => {
 
   const secure_url = import.meta.env.VITE_CLOUDNAME;
 
-  const uploadImage = (files: any) => {
+  const uploadImage = () => {
     const formData = new FormData();
     formData.append("file", image);
     formData.append("upload_preset", "ms6fdgh0");
@@ -24,6 +23,33 @@ const UploadCourse = () => {
     fetch(`https://api.cloudinary.com/v1_1/${secure_url}/image/upload`, {
       method: "POST",
       body: formData,
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        imageUrlToDatabase(data.url);
+      });
+  };
+
+  const imageUrlToDatabase = async (url: string) => {
+    const data = {
+      image_url: url,
+      video_url: "empty",
+      description: descriptionRef.current?.value,
+    };
+
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGM4OTU0ZWZhMWE5NjRlOGFmYzU4YyIsImlhdCI6MTY3ODk4MDQ0NH0.ClAOm6_dA0qJcIGDniplBrNmfpjirVqdP4qn6WqnreA";
+
+    fetch("http://localhost:3000/course/upload", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         console.log(res);
