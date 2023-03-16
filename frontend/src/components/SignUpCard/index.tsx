@@ -34,40 +34,41 @@ const SignUpCard = () => {
       ? setPasswordError(true)
       : setPasswordError(false);
 
-    confirmPasswordRef.current?.value.length !== 0 ||
-    confirmPasswordRef.current?.value === passwordRef.current?.value
+    confirmPasswordRef.current?.value != passwordRef.current?.value
       ? setConfirmPasswordError(true)
       : setConfirmPasswordError(false);
-  };
 
-  if (
-    nameRef.current?.value.length !== 0 &&
-    emailRef.current?.value.length !== 0 &&
-    passwordRef.current?.value.length !== 0 &&
-    confirmPasswordRef.current?.value.length !== 0
-  ) {
-    const data = {
-      name: nameRef.current?.value,
-      email: emailRef.current?.value,
-      password: passwordRef.current?.value,
-      confirmpassword: confirmPasswordRef.current?.value,
-    };
+    //request
+    if (
+      nameRef.current?.value.length !== 0 &&
+      emailRef.current?.value.length !== 0 &&
+      passwordRef.current?.value.length !== 0 &&
+      confirmPasswordRef.current?.value.length !== 0
+    ) {
+      const data = {
+        name: nameRef.current?.value,
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+        confirmpassword: confirmPasswordRef.current?.value,
+      };
 
-    fetch("http://localhost:3000/users/register", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        return res.json();
+      fetch("http://localhost:3000/users/register", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json",
+        },
       })
-      .then((data) => {
-        console.log(data);
-      });
-  }
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
+        .then((data) => {
+          navigate("/");
+          console.log(data);
+        });
+    }
+  };
 
   return (
     <Container>

@@ -30,7 +30,6 @@ const WelcomeCard = () => {
       emailRef.current?.value.length !== 0 &&
       passwordRef.current?.value.length !== 0
     ) {
-      alert("oi");
       fetch("http://localhost:3000/users/login", {
         method: "POST",
         body: JSON.stringify(data),
@@ -40,6 +39,9 @@ const WelcomeCard = () => {
       })
         .then((res) => {
           console.log(res);
+          if (res.status === 200) {
+            navigate("/home");
+          }
           return res.json();
         })
         .then((data) => {
