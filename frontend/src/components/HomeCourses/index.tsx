@@ -1,4 +1,6 @@
+import { CoursesContainer } from "./styled";
 import { useEffect, useState } from "react";
+import CourseCard from "../CourseCard";
 
 interface ICourses {
   description: string;
@@ -41,14 +43,11 @@ const HomeCourses = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        courses.map((data) => (
-          <div>
-            <h1>{data.description}</h1>
-            <p>
-              <img src={data.image_url} />
-            </p>
-          </div>
-        ))
+        <CoursesContainer>
+          {courses.map((data) => (
+            <CourseCard description={data.description} image={data.image_url} />
+          ))}
+        </CoursesContainer>
       )}
     </>
   );
