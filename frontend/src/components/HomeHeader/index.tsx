@@ -1,10 +1,15 @@
 import { Header, HeaderOptions } from "./styled";
-
+import { useNavigate } from "react-router-dom";
 const HomeHeader = () => {
+  const navigate = useNavigate();
   return (
     <Header>
-      <HeaderOptions>All Courses</HeaderOptions>
-      <HeaderOptions>Add Course</HeaderOptions>
+      <HeaderOptions onClick={() => navigate("/home")}>
+        All Courses
+      </HeaderOptions>
+      <HeaderOptions onClick={() => navigate("/addcourse")}>
+        Add Course
+      </HeaderOptions>
     </Header>
   );
 };

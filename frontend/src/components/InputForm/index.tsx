@@ -3,7 +3,7 @@ import { InputStyled } from "./styled";
 interface IInput {
   type: string;
   placeholder: string;
-  hasEmpty: boolean | null | undefined;
+  hasEmpty?: boolean | null | undefined;
   inputRef: React.RefObject<HTMLInputElement>;
 }
 
