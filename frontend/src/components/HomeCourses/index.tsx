@@ -16,24 +16,6 @@ const HomeCourses = () => {
   const [courses, setCourses] = useState<ICourses[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>();
 
-  const getAllEnrolledCourses = () => {
-    setIsLoading(true);
-    fetch(`http://localhost:3000/users/mycourses/${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((data) => {
-        const enrolledCourses = data.user.enrolledCourses;
-      });
-  };
-
   const getAllCourses = () => {
     setIsLoading(true);
     fetch("http://localhost:3000/course/all", {
@@ -55,7 +37,6 @@ const HomeCourses = () => {
 
   useEffect(() => {
     getAllCourses();
-    console.log(courses);
   }, []);
 
   return (
