@@ -10,6 +10,9 @@ const HomeHeader = () => {
       <HeaderOptions onClick={() => navigate("/addcourse")}>
         Add Course
       </HeaderOptions>
+      <HeaderOptions onClick={() => navigate("/mycourses")}>
+        My Courses
+      </HeaderOptions>
     </Header>
   );
 };

@@ -40,8 +40,7 @@ const UploadCourse = () => {
       description: descriptionRef.current?.value,
     };
 
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGM4OTU0ZWZhMWE5NjRlOGFmYzU4YyIsImlhdCI6MTY3ODk4MDQ0NH0.ClAOm6_dA0qJcIGDniplBrNmfpjirVqdP4qn6WqnreA";
+    const token = localStorage.getItem("token");
 
     fetch("http://localhost:3000/course/upload", {
       method: "POST",

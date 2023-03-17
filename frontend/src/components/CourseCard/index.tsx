@@ -5,13 +5,14 @@ interface ICourseCard {
 }
 
 const CourseCard = ({ description, image }: ICourseCard) => {
+  const enrollHandler = () => {};
   return (
     <Card>
       <div>
         <ImageCourse src={image} />
       </div>
       <h1>{description}</h1>
-      <EnrollButton>Enroll</EnrollButton>
+      <EnrollButton onClick={enrollHandler}>Enroll</EnrollButton>
     </Card>
   );
 };

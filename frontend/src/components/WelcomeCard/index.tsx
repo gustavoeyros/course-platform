@@ -41,9 +41,13 @@ const WelcomeCard = () => {
           console.log(res);
           return res.json();
         })
-        .then((data) => {
-          if (data.token) {
-            localStorage.setItem("token", data.token);
+        .then((info) => {
+          if (info.data.token && info.data.id) {
+            const user = {
+              token: info.data.token,
+              id: info.data.id,
+            };
+            localStorage.setItem("user", JSON.stringify(user));
             navigate("/home");
           }
         });
