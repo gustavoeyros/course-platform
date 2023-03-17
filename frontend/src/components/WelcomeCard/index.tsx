@@ -39,13 +39,14 @@ const WelcomeCard = () => {
       })
         .then((res) => {
           console.log(res);
-          if (res.status === 200) {
-            navigate("/home");
-          }
           return res.json();
         })
         .then((data) => {
           console.log(data);
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            navigate("/home");
+          }
         });
     }
   };
