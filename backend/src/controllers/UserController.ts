@@ -103,7 +103,26 @@ export default class UserController {
         { _id: user?.id },
         { $push: { enrolledCourses: course } }
       );
+      await Course.findOneAndUpdate(
+        {
+          _id: course?.id,
+        },
+        { $push: { students: user?.id } }
+      );
       res.status(200).json({ message: "Matriculado com sucesso!" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Erro no servidor!" });
+    }
+  }
+  static async courses(req: Request, res: Response) {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      res.status(422).json({ message: "Usuário não encontrado" });
+    }
+    try {
+      res.status(200).json({ user });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Erro no servidor!" });
