@@ -8,8 +8,8 @@ interface ICourses {
 }
 
 const HomeCourses = () => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGM4OTU0ZWZhMWE5NjRlOGFmYzU4YyIsImlhdCI6MTY3ODk4MDQ0NH0.ClAOm6_dA0qJcIGDniplBrNmfpjirVqdP4qn6WqnreA";
+  const user = JSON.parse(localStorage.getItem("user") || "");
+  const token = user.token;
 
   const [courses, setCourses] = useState<ICourses[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>();
