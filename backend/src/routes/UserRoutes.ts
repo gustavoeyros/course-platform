@@ -8,5 +8,6 @@ router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.patch("/enroll/:userId/:courseId", UserController.enroll);
 router.get("/mycourses/:id", checkToken, UserController.courses);
+router.patch("/unenroll/:userId/:courseId", UserController.unenroll);
 
 export default router;

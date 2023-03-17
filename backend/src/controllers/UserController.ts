@@ -128,4 +128,34 @@ export default class UserController {
       res.status(500).json({ message: "Erro no servidor!" });
     }
   }
+  static async unenroll(req: Request, res: Response) {
+    const { userId, courseId } = req.params;
+    const user = await User.findById(userId);
+    const course = await Course.findById(courseId);
+    if (!course) {
+      res.status(422).json({ message: "Curso não encontrado" });
+    }
+    if (!user) {
+      res.status(422).json({ message: "Usuário não encontrado" });
+    }
+
+    try {
+      await User.findOneAndUpdate(
+        { _id: user?.id },
+        { $pull: { enrolledCourses: course?._id } }
+      );
+
+      await Course.findOneAndUpdate(
+        {
+          _id: course?.id,
+        },
+        { $pull: { students: user?.id } }
+      );
+
+      res.status(200).json({ message: "Desmatriculado com sucesso!" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Erro no servidor!" });
+    }
+  }
 }
