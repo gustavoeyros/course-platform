@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 interface ICourses {
   description: string;
   image_url: string;
+  _id: string;
+  students: [];
 }
 
 const MyCourses = () => {
@@ -31,6 +33,7 @@ const MyCourses = () => {
       })
       .then((data) => {
         const enrolledCourses = data.user.enrolledCourses;
+        console.log(enrolledCourses);
         setCourses(enrolledCourses);
         setIsLoading(false);
       });
@@ -48,7 +51,12 @@ const MyCourses = () => {
       ) : (
         <CoursesContainer>
           {courses.map((data) => (
-            <CourseCard description={data.description} image={data.image_url} />
+            <CourseCard
+              description={data.description}
+              image={data.image_url}
+              courseId={data._id}
+              students={data.students}
+            />
           ))}
         </CoursesContainer>
       )}

@@ -3,14 +3,19 @@ interface ICourseCard {
   description: string;
   image: string;
   courseId: string;
+  students: [];
 }
 
-const CourseCard = ({ description, image, courseId }: ICourseCard) => {
+const CourseCard = ({
+  description,
+  image,
+  courseId,
+  students,
+}: ICourseCard) => {
+  const user = JSON.parse(localStorage.getItem("user") || "");
+  const userId = user.id;
+  const userToken = user.token;
   const enrollHandler = () => {
-    const user = JSON.parse(localStorage.getItem("user") || "");
-    const userId = user.id;
-    const userToken = user.token;
-
     if (userId) {
       fetch(`http://localhost:3000/users/enroll/${userId}/${courseId}`, {
         method: "PATCH",
@@ -26,13 +31,20 @@ const CourseCard = ({ description, image, courseId }: ICourseCard) => {
         .then((data) => console.log(data));
     }
   };
+
+  const hasEnrolled = students.findIndex((student) => {
+    return student == userId;
+  });
+
   return (
     <Card>
       <div>
         <ImageCourse src={image} />
       </div>
       <h1>{description}</h1>
-      <EnrollButton onClick={enrollHandler}>Enroll</EnrollButton>
+      <EnrollButton onClick={enrollHandler}>
+        {hasEnrolled >= 0 ? "Enrolled" : "Enroll"}
+      </EnrollButton>
     </Card>
   );
 };

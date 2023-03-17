@@ -6,6 +6,7 @@ interface ICourses {
   description: string;
   image_url: string;
   _id: string;
+  students: [];
 }
 
 const HomeCourses = () => {
@@ -50,6 +51,7 @@ const HomeCourses = () => {
               description={data.description}
               image={data.image_url}
               courseId={data._id}
+              students={data.students}
             />
           ))}
         </CoursesContainer>
