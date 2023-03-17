@@ -1,8 +1,11 @@
 import HomeHeader from "../components/HomeHeader";
+import CourseCard from "../components/CourseCard";
+import { CoursesContainer } from "../components/HomeCourses/styled";
 import { useEffect, useState } from "react";
 
 interface ICourses {
   description: string;
+  image_url: string;
 }
 
 const MyCourses = () => {
@@ -43,11 +46,11 @@ const MyCourses = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <CoursesContainer>
           {courses.map((data) => (
-            <p>{data.description}</p>
+            <CourseCard description={data.description} image={data.image_url} />
           ))}
-        </div>
+        </CoursesContainer>
       )}
     </>
   );

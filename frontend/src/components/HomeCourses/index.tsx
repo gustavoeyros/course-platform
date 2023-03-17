@@ -5,14 +5,34 @@ import CourseCard from "../CourseCard";
 interface ICourses {
   description: string;
   image_url: string;
+  _id: string;
 }
 
 const HomeCourses = () => {
   const user = JSON.parse(localStorage.getItem("user") || "");
   const token = user.token;
+  const userId = user.id;
 
   const [courses, setCourses] = useState<ICourses[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>();
+
+  const getAllEnrolledCourses = () => {
+    setIsLoading(true);
+    fetch(`http://localhost:3000/users/mycourses/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        const enrolledCourses = data.user.enrolledCourses;
+      });
+  };
 
   const getAllCourses = () => {
     setIsLoading(true);
@@ -30,12 +50,12 @@ const HomeCourses = () => {
       .then((data) => {
         setCourses(data.message);
         setIsLoading(false);
-        console.log(courses);
       });
   };
 
   useEffect(() => {
     getAllCourses();
+    console.log(courses);
   }, []);
 
   return (
@@ -45,7 +65,11 @@ const HomeCourses = () => {
       ) : (
         <CoursesContainer>
           {courses.map((data) => (
-            <CourseCard description={data.description} image={data.image_url} />
+            <CourseCard
+              description={data.description}
+              image={data.image_url}
+              courseId={data._id}
+            />
           ))}
         </CoursesContainer>
       )}
