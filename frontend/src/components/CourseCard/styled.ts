@@ -33,3 +33,22 @@ export const EnrollButton = styled.button`
     transition: 0.5s;
   }
 `;
+
+export const EnrolledButton = styled.button`
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #304d63;
+`;
+
+export const ContinueWatching = styled.button`
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  background-color: #304d63;
+`;

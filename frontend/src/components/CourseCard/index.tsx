@@ -1,9 +1,16 @@
-import { Card, ImageCourse, EnrollButton } from "./styled";
+import {
+  Card,
+  ImageCourse,
+  EnrollButton,
+  EnrolledButton,
+  ContinueWatching,
+} from "./styled";
 interface ICourseCard {
   description: string;
   image: string;
   courseId: string;
   students: [];
+  continueWatching?: boolean;
 }
 
 const CourseCard = ({
@@ -11,6 +18,7 @@ const CourseCard = ({
   image,
   courseId,
   students,
+  continueWatching,
 }: ICourseCard) => {
   const user = JSON.parse(localStorage.getItem("user") || "");
   const userId = user.id;
@@ -28,11 +36,13 @@ const CourseCard = ({
           console.log(res);
           return res.json();
         })
-        .then((data) => console.log(data));
+        .then((data) => {
+          console.log(data);
+        });
     }
   };
 
-  const hasEnrolled = students.findIndex((student) => {
+  let hasEnrolled = students.findIndex((student) => {
     return student == userId;
   });
 
@@ -42,9 +52,15 @@ const CourseCard = ({
         <ImageCourse src={image} />
       </div>
       <h1>{description}</h1>
-      <EnrollButton onClick={enrollHandler}>
-        {hasEnrolled >= 0 ? "Enrolled" : "Enroll"}
-      </EnrollButton>
+      {!continueWatching ? (
+        hasEnrolled >= 0 ? (
+          <EnrolledButton disabled>Enrolled</EnrolledButton>
+        ) : (
+          <EnrollButton onClick={enrollHandler}>Enroll</EnrollButton>
+        )
+      ) : (
+        <ContinueWatching>Continue Watching</ContinueWatching>
+      )}
     </Card>
   );
 };

@@ -56,6 +56,7 @@ const MyCourses = () => {
               image={data.image_url}
               courseId={data._id}
               students={data.students}
+              continueWatching={true}
             />
           ))}
         </CoursesContainer>
