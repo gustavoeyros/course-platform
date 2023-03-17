@@ -77,7 +77,11 @@ export default class UserController {
         },
         secret ? secret : ""
       );
-      res.status(200).json({ message: "Logado com sucesso!", token });
+      const data = {
+        token,
+        id: user.id,
+      };
+      res.status(200).json({ message: "Logado com sucesso!", data });
     } catch (error) {
       console.log(error);
       res.status(500).json({ messag: "Erro no servidor!" });
@@ -88,11 +92,21 @@ export default class UserController {
     const { userId, courseId } = req.params;
     const user = await User.findById(userId);
     const course = await Course.findById(courseId);
-    console.log(course);
-    console.log(user);
-    await User.findOneAndUpdate(
-      { _id: user?.id },
-      { $push: { enrolledCourses: course } }
-    );
+    if (!course) {
+      res.status(422).json({ message: "Curso não encontrado" });
+    }
+    if (!user) {
+      res.status(422).json({ message: "Usuário não encontrado" });
+    }
+    try {
+      await User.findOneAndUpdate(
+        { _id: user?.id },
+        { $push: { enrolledCourses: course } }
+      );
+      res.status(200).json({ message: "Matriculado com sucesso!" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Erro no servidor!" });
+    }
   }
 }
