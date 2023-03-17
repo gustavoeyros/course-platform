@@ -1,4 +1,4 @@
-import { Card, ImageCourse } from "./styled";
+import { Card, ImageCourse, EnrollButton } from "./styled";
 interface ICourseCard {
   description: string;
   image: string;
@@ -7,10 +7,11 @@ interface ICourseCard {
 const CourseCard = ({ description, image }: ICourseCard) => {
   return (
     <Card>
-      <h1>{description}</h1>
-      <p>
+      <div>
         <ImageCourse src={image} />
-      </p>
+      </div>
+      <h1>{description}</h1>
+      <EnrollButton>Enroll</EnrollButton>
     </Card>
   );
 };
