@@ -100,7 +100,7 @@ const SignUpCard = () => {
         />
         <SignInContianer>
           Already have an account?{" "}
-          <span onClick={() => navigate("/")}>Sign Up</span>
+          <span onClick={() => navigate("/")}>Sign In</span>
         </SignInContianer>
         <ButtonForm onClick={submitHandler}>Sign Up</ButtonForm>
       </Card>
