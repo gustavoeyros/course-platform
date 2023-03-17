@@ -6,5 +6,6 @@ const router = Router();
 
 router.post("/upload", checkToken, CourseController.upload);
 router.get("/all", checkToken, CourseController.allCourses);
+router.get("/:id", checkToken, CourseController.getCourseById);
 
 export default router;

@@ -41,4 +41,18 @@ export default class CourseController {
     const courses = await Course.find();
     res.status(200).json({ message: courses });
   }
+
+  static async getCourseById(req: Request, res: Response) {
+    const { id } = req.params;
+    const course = await Course.findById(id);
+    if (!course) {
+      res.status(422).json({ message: "Curso não encontrado" });
+    }
+    try {
+      res.status(200).json({ course });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Erro no servidor!" });
+    }
+  }
 }
