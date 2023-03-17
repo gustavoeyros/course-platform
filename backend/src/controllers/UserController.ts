@@ -101,7 +101,7 @@ export default class UserController {
     try {
       await User.findOneAndUpdate(
         { _id: user?.id },
-        { $push: { enrolledCourses: course } }
+        { $push: { enrolledCourses: course?.id } }
       );
       await Course.findOneAndUpdate(
         {
@@ -142,7 +142,7 @@ export default class UserController {
     try {
       await User.findOneAndUpdate(
         { _id: user?.id },
-        { $pull: { enrolledCourses: course?._id } }
+        { $pull: { enrolledCourses: course?.id } }
       );
 
       await Course.findOneAndUpdate(
