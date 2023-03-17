@@ -33,7 +33,6 @@ const MyCourses = () => {
       })
       .then((data) => {
         const enrolledCourses = data.user.enrolledCourses;
-        console.log(enrolledCourses);
         setCourses(enrolledCourses);
         setIsLoading(false);
       });
@@ -50,15 +49,17 @@ const MyCourses = () => {
         <p>Loading...</p>
       ) : (
         <CoursesContainer>
-          {courses.map((data) => (
-            <CourseCard
-              description={data.description}
-              image={data.image_url}
-              courseId={data._id}
-              students={data.students}
-              continueWatching={true}
-            />
-          ))}
+          {courses.map((data) => {
+            return (
+              <CourseCard
+                description={data.description}
+                image={data.image_url}
+                courseId={data._id}
+                students={data.students}
+                continueWatching={true}
+              />
+            );
+          })}
         </CoursesContainer>
       )}
     </>

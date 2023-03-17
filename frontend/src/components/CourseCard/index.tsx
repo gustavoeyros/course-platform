@@ -4,6 +4,7 @@ import {
   EnrollButton,
   EnrolledButton,
   ContinueWatching,
+  Unenroll,
 } from "./styled";
 interface ICourseCard {
   description: string;
@@ -42,6 +43,23 @@ const CourseCard = ({
     }
   };
 
+  const unenrollHandler = () => {
+    fetch(`http://localhost:3000/users/unenroll/${userId}/${courseId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   let hasEnrolled = students.findIndex((student) => {
     return student == userId;
   });
@@ -59,7 +77,10 @@ const CourseCard = ({
           <EnrollButton onClick={enrollHandler}>Enroll</EnrollButton>
         )
       ) : (
-        <ContinueWatching>Continue Watching</ContinueWatching>
+        <>
+          <ContinueWatching>Continue Watching</ContinueWatching>
+          <Unenroll onClick={unenrollHandler}>Unenroll</Unenroll>
+        </>
       )}
     </Card>
   );

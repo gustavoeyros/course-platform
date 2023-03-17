@@ -6,7 +6,7 @@ export const Card = styled.div`
   align-items: center;
   flex-direction: column;
   width: 400px;
-  height: 450px;
+  height: 480px;
   background-color: #b2e7e8;
   margin-top: 5px;
   margin-left: 5px;
@@ -51,4 +51,14 @@ export const ContinueWatching = styled.button`
   border: none;
   color: white;
   background-color: #304d63;
+`;
+
+export const Unenroll = styled.button`
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  background-color: #ed8975;
 `;
