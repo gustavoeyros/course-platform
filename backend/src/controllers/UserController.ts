@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/User";
+import Course from "../models/Course";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
@@ -81,5 +82,17 @@ export default class UserController {
       console.log(error);
       res.status(500).json({ messag: "Erro no servidor!" });
     }
+  }
+
+  static async enroll(req: Request, res: Response) {
+    const { userId, courseId } = req.params;
+    const user = await User.findById(userId);
+    const course = await Course.findById(courseId);
+    console.log(course);
+    console.log(user);
+    await User.findOneAndUpdate(
+      { _id: user?.id },
+      { $push: { enrolledCourses: course } }
+    );
   }
 }
