@@ -38,6 +38,11 @@ const MyCourses = () => {
       });
   };
 
+  const removeHandler = (id: string) => {
+    const filteredCourses = courses.filter((course) => course._id !== id);
+    setCourses(filteredCourses);
+  };
+
   useEffect(() => {
     getMyCourses();
   }, []);
@@ -57,6 +62,7 @@ const MyCourses = () => {
                 courseId={data._id}
                 students={data.students}
                 continueWatching={true}
+                removeCard={removeHandler}
               />
             );
           })}

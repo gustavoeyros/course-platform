@@ -13,6 +13,7 @@ interface ICourseCard {
   courseId: string;
   students: [];
   continueWatching?: boolean;
+  removeCard: (id: string) => any;
 }
 
 const CourseCard = ({
@@ -21,12 +22,14 @@ const CourseCard = ({
   courseId,
   students,
   continueWatching,
+  removeCard,
 }: ICourseCard) => {
   const [enrolled, setEnrolled] = useState<boolean | null>(null);
   const user = JSON.parse(localStorage.getItem("user") || "");
   const userId = user.id;
   const userToken = user.token;
   const enrollHandler = () => {
+    setEnrolled(true);
     fetch(`http://localhost:3000/users/enroll/${userId}/${courseId}`, {
       method: "PATCH",
       headers: {
@@ -40,11 +43,11 @@ const CourseCard = ({
       })
       .then((data) => {
         console.log(data);
-        setEnrolled(true);
       });
   };
 
   const unenrollHandler = () => {
+    removeCard(courseId);
     fetch(`http://localhost:3000/users/unenroll/${userId}/${courseId}`, {
       method: "PATCH",
       headers: {
