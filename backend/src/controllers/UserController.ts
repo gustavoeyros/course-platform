@@ -4,6 +4,7 @@ import Course from "../models/Course";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
+import mongoose, { isValidObjectId } from "mongoose";
 config();
 
 export default class UserController {
@@ -101,7 +102,7 @@ export default class UserController {
     try {
       await User.findOneAndUpdate(
         { _id: user?.id },
-        { $push: { enrolledCourses: course?.id } }
+        { $push: { enrolledCourses: course } }
       );
       await Course.findOneAndUpdate(
         {
@@ -139,10 +140,12 @@ export default class UserController {
       res.status(422).json({ message: "Usuário não encontrado" });
     }
 
+    const formatedID = new mongoose.Types.ObjectId(courseId);
+
     try {
       await User.findOneAndUpdate(
         { _id: user?.id },
-        { $pull: { enrolledCourses: course?.id } }
+        { $pull: { enrolledCourses: { _id: formatedID } } }
       );
 
       await Course.findOneAndUpdate(
