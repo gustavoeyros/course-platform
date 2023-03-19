@@ -38,6 +38,9 @@ export const InputFile = styled.input`
 
 export const LabelFile = styled.label`
   padding: 10px 56px;
+  &[for="videoinput"] {
+    padding: 10px 59px;
+  }
   background-color: white;
   color: black;
   border-radius: 4px;
@@ -47,5 +50,13 @@ export const LabelFile = styled.label`
 `;
 
 export const FileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   margin-top: 10px;
+`;
+
+export const UploadContainer = styled.div`
+  width: 100%;
+  margin-top: 25px;
 `;

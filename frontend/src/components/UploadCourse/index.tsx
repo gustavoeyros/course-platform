@@ -6,11 +6,13 @@ import {
   InputFile,
   LabelFile,
   FileContainer,
+  UploadContainer,
 } from "./styled";
 import { FormEvent, useRef, useState } from "react";
 import ButtonForm from "../ButtonForm";
 const UploadCourse = () => {
   const [image, setImage] = useState<any>("");
+  const [video, setVideo] = useState<any>("");
   const descriptionRef = useRef<HTMLInputElement>(null);
 
   const secure_url = import.meta.env.VITE_CLOUDNAME;
@@ -74,16 +76,33 @@ const UploadCourse = () => {
             inputRef={descriptionRef}
           />
           <FileContainer>
-            <InputFile
-              type="file"
-              id="fileInput"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                if (event.target.files) {
-                  setImage(event.target.files[0]);
-                }
-              }}
-            />
-            <LabelFile htmlFor="fileInput">Upload Image</LabelFile>
+            <UploadContainer>
+              <InputFile
+                type="file"
+                id="fileInput"
+                accept=".jpg, .jpeg, .png"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.files) {
+                    setImage(event.target.files[0]);
+                  }
+                }}
+              />
+              <LabelFile htmlFor="fileInput">Upload Image</LabelFile>
+            </UploadContainer>
+
+            <UploadContainer>
+              <InputFile
+                type="file"
+                id="videoinput"
+                accept=".mp4"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.files) {
+                    setImage(event.target.files[0]);
+                  }
+                }}
+              />
+              <LabelFile htmlFor="videoinput">Upload Video</LabelFile>
+            </UploadContainer>
           </FileContainer>
           <ButtonForm onClick={uploadImage}>Send</ButtonForm>
         </ContentCard>
