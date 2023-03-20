@@ -1,9 +1,10 @@
 import HomeHeader from "../components/HomeHeader";
+import WatchingCourse from "../components/WatchingCourse";
 const CoursePlayer = () => {
   return (
     <>
       <HomeHeader />
-      <h1>course player</h1>
+      <WatchingCourse />
     </>
   );
 };
