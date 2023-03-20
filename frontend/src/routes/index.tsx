@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import AddCourse from "../pages/AddCourse";
 import MyCourses from "../pages/MyCourses";
 import { Navigate } from "react-router-dom";
+import CoursePlayer from "../pages/CoursePlayer";
 
 const RoutesManager = () => {
   const user = localStorage.getItem("user");
@@ -24,6 +25,11 @@ const RoutesManager = () => {
       <Route
         path="/mycourses"
         element={token ? <MyCourses /> : <Navigate to="/signup" />}
+      />
+
+      <Route
+        path="/mycourses/:id"
+        element={token ? <CoursePlayer /> : <Navigate to="/signup" />}
       />
     </Routes>
   );

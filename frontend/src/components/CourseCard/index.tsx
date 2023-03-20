@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   Card,
   ImageCourse,
@@ -24,6 +26,7 @@ const CourseCard = ({
   continueWatching,
   removeCard,
 }: ICourseCard) => {
+  const navigate = useNavigate();
   const [enrolled, setEnrolled] = useState<boolean | null>(null);
   const user = JSON.parse(localStorage.getItem("user") || "");
   const userId = user.id;
@@ -68,8 +71,12 @@ const CourseCard = ({
     return student == userId;
   });
 
+  const watchingVideo = () => {
+    navigate(`/mycourses/${courseId}`);
+  };
+
   return (
-    <Card>
+    <Card key={courseId}>
       <div>
         <ImageCourse src={image} />
       </div>
@@ -82,7 +89,9 @@ const CourseCard = ({
         )
       ) : (
         <>
-          <ContinueWatching>Continue Watching</ContinueWatching>
+          <ContinueWatching onClick={watchingVideo}>
+            Continue Watching
+          </ContinueWatching>
           <Unenroll onClick={unenrollHandler}>Unenroll</Unenroll>
         </>
       )}
