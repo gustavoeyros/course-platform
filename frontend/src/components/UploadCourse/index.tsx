@@ -8,13 +8,13 @@ import {
   FileContainer,
   UploadContainer,
 } from "./styled";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ButtonForm from "../ButtonForm";
 const UploadCourse = () => {
   const [image, setImage] = useState<any>("");
   const [video, setVideo] = useState<any>("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
+  let imageUrl = "";
+  let videoUrl = "";
 
   const descriptionRef = useRef<HTMLInputElement>(null);
 
@@ -34,7 +34,8 @@ const UploadCourse = () => {
         return res.json();
       })
       .then((data) => {
-        setImageUrl(data.url);
+        imageUrl = data.url;
+        uploadVideo();
       });
   };
 
@@ -52,11 +53,12 @@ const UploadCourse = () => {
         return res.json();
       })
       .then((data) => {
-        setVideoUrl(data.url);
+        videoUrl = data.url;
+        contentUrlToDatabase();
       });
   };
 
-  const contentUrlToDatabase = async (imageUrl: string, videoUrl: string) => {
+  const contentUrlToDatabase = async () => {
     const data = {
       image_url: imageUrl,
       video_url: videoUrl,
@@ -81,12 +83,6 @@ const UploadCourse = () => {
       .then((data) => {
         console.log(data);
       });
-  };
-
-  const sendContentToDatabase = async () => {
-    uploadImage();
-    uploadVideo();
-    await contentUrlToDatabase(imageUrl, videoUrl);
   };
 
   return (
@@ -128,7 +124,7 @@ const UploadCourse = () => {
               <LabelFile htmlFor="videoinput">Upload Video</LabelFile>
             </UploadContainer>
           </FileContainer>
-          <ButtonForm onClick={sendContentToDatabase}>Send</ButtonForm>
+          <ButtonForm onClick={uploadImage}>Send</ButtonForm>
         </ContentCard>
       </UploadCard>
     </Container>
