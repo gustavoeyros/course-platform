@@ -5,6 +5,7 @@ interface IUser {
   email: string;
   password: string;
   enrolledCourses: [];
+  finishedCourses: [];
 }
 
 const userSchema = new Schema<IUser>({
@@ -12,6 +13,7 @@ const userSchema = new Schema<IUser>({
   email: String,
   password: String,
   enrolledCourses: [],
+  finishedCourses: [],
 });
 
 const User = model<IUser>("User", userSchema);

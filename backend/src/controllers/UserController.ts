@@ -161,4 +161,30 @@ export default class UserController {
       res.status(500).json({ message: "Erro no servidor!" });
     }
   }
+
+  static async finishCourse(req: Request, res: Response) {
+    const { userId, courseId } = req.params;
+    const user = await User.findById(userId);
+    const course = await Course.findById(courseId);
+    if (!course) {
+      res.status(422).json({ message: "Curso não encontrado" });
+    }
+    if (!user) {
+      res.status(422).json({ message: "Usuário não encontrado" });
+    }
+
+    const formatedID = new mongoose.Types.ObjectId(courseId);
+
+    try {
+      await User.findOneAndUpdate(
+        { _id: user?.id },
+        { $push: { finishedCourses: { _id: formatedID } } }
+      );
+
+      res.status(200).json({ message: "Curso finalizado com sucesso!" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Erro no servidor!" });
+    }
+  }
 }

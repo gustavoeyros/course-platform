@@ -9,5 +9,10 @@ router.post("/login", UserController.login);
 router.patch("/enroll/:userId/:courseId", UserController.enroll);
 router.patch("/unenroll/:userId/:courseId", UserController.unenroll);
 router.get("/mycourses/:id", checkToken, UserController.courses);
+router.patch(
+  "/mycourses/finishCourse/:userId/:courseId",
+  checkToken,
+  UserController.finishCourse
+);
 
 export default router;
