@@ -173,12 +173,12 @@ export default class UserController {
       res.status(422).json({ message: "Usuário não encontrado" });
     }
 
-    const formatedID = new mongoose.Types.ObjectId(courseId);
+    //const formatedID = new mongoose.Types.ObjectId(courseId);
 
     try {
       await User.findOneAndUpdate(
         { _id: user?.id },
-        { $push: { finishedCourses: { _id: formatedID } } }
+        { $push: { finishedCourses: { _id: courseId } } }
       );
 
       res.status(200).json({ message: "Curso finalizado com sucesso!" });
