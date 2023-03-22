@@ -173,8 +173,6 @@ export default class UserController {
       res.status(422).json({ message: "Usuário não encontrado" });
     }
 
-    //const formatedID = new mongoose.Types.ObjectId(courseId);
-
     try {
       await User.findOneAndUpdate(
         { _id: user?.id },
@@ -186,5 +184,14 @@ export default class UserController {
       console.log(error);
       res.status(500).json({ message: "Erro no servidor!" });
     }
+  }
+  static async getFinishedCourses(req: Request, res: Response) {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(422).json({ message: "Usuário não encontrado" });
+    }
+    res.status(200).json({ finishedCourses: user?.finishedCourses });
   }
 }

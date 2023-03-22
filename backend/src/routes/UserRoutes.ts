@@ -14,5 +14,10 @@ router.patch(
   checkToken,
   UserController.finishCourse
 );
+router.get(
+  "/finishedcourses/:userId",
+  checkToken,
+  UserController.getFinishedCourses
+);
 
 export default router;
