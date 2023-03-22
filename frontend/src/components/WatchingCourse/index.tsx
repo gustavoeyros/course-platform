@@ -1,6 +1,12 @@
-import { Container, PlayerStyled, VideoPlayer } from "./styled";
+import {
+  Container,
+  PlayerStyled,
+  VideoPlayer,
+  PlayerContainer,
+} from "./styled";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CourseExam from "../CourseExam";
 
 interface ICourses {
   description: string;
@@ -14,6 +20,7 @@ const WatchingCourse = () => {
   const { id } = useParams();
   const [course, setCourse] = useState<ICourses>();
   const [isLoading, setIsLoading] = useState<boolean | null>(null);
+  const [finishCourse, setFinishCourse] = useState<boolean | null>(null);
 
   const user = JSON.parse(localStorage.getItem("user") || "");
   const token = user.token;
@@ -38,11 +45,37 @@ const WatchingCourse = () => {
         setCourse(data.course);
         setIsLoading(false);
         courseId = data.course._id;
-        console.log(courseId);
+        getCompletedCourses();
+      });
+  };
+
+  const getCompletedCourses = () => {
+    fetch(`http://localhost:3000/users/finishedcourses/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        const finishedCourses: [] = data.finishedCourses;
+        const finished = finishedCourses.findIndex((course: any) => {
+          return course._id === id;
+        });
+        if (finished >= 0) {
+          setFinishCourse(true);
+        } else {
+          setFinishCourse(false);
+        }
       });
   };
 
   const finishedVideoHandler = () => {
+    setFinishCourse(true);
     fetch(
       `http://localhost:3000/users/mycourses/finishCourse/${userId}/${courseId}`,
       {
@@ -71,16 +104,19 @@ const WatchingCourse = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <PlayerStyled>
-          <h1>
-            Nome do curso: <span>{course?.description}</span>
-          </h1>
-          <VideoPlayer
-            src={course?.video_url}
-            controls
-            onEnded={finishedVideoHandler}
-          />
-        </PlayerStyled>
+        <PlayerContainer>
+          <PlayerStyled>
+            <h1>
+              Nome do curso: <span>{course?.description}</span>
+            </h1>
+            <VideoPlayer
+              src={course?.video_url}
+              controls
+              onEnded={finishedVideoHandler}
+            />
+          </PlayerStyled>
+          {finishCourse ? <CourseExam /> : ""}
+        </PlayerContainer>
       )}
     </Container>
   );

@@ -18,3 +18,11 @@ export const PlayerStyled = styled.div`
 export const VideoPlayer = styled.video`
   width: 200%;
 `;
+
+export const PlayerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+`;
