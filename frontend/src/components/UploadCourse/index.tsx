@@ -35,6 +35,7 @@ const UploadCourse = () => {
       })
       .then((data) => {
         imageUrl = data.url;
+        console.log(data);
         uploadVideo();
       });
   };
