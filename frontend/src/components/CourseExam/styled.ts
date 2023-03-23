@@ -22,6 +22,7 @@ export const ExamCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 350px;
   height: 350px;
   background-color: white;
@@ -31,3 +32,12 @@ export const ExamCard = styled.div`
     cursor: pointer;
   }
 `;
+
+export const QuestionsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const IndividualQuestion = styled.div``;

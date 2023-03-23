@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ExamContainer, Backdrop, ExamCard } from "./styled";
+import {
+  ExamContainer,
+  Backdrop,
+  ExamCard,
+  QuestionsContainer,
+  IndividualQuestion,
+} from "./styled";
 
 interface IQuestions {
   answer: string;
@@ -51,7 +57,23 @@ const CourseExam = () => {
         <Backdrop>
           <ExamCard>
             <span onClick={() => setShowExam(false)}>Close</span>
-            {isLoading ? <h1>Questões</h1> : ""}
+            {!isLoading ? (
+              <QuestionsContainer>
+                <h1>Questões</h1>
+                {questions.map((data) => (
+                  <IndividualQuestion key={data._id}>
+                    <p>{data.question}</p>
+                    {data.options.map((option) => (
+                      <ul>
+                        <li>{option}</li>
+                      </ul>
+                    ))}
+                  </IndividualQuestion>
+                ))}
+              </QuestionsContainer>
+            ) : (
+              ""
+            )}
           </ExamCard>
         </Backdrop>
       ) : (
