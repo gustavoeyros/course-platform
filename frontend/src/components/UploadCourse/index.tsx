@@ -7,12 +7,15 @@ import {
   LabelFile,
   FileContainer,
   UploadContainer,
+  ButtonExam,
 } from "./styled";
 import { useRef, useState } from "react";
 import ButtonForm from "../ButtonForm";
+import CreateExam from "../CreateExam";
 const UploadCourse = () => {
   const [image, setImage] = useState<any>("");
   const [video, setVideo] = useState<any>("");
+  const [showCreateExam, setShowCreateExam] = useState<boolean | null>(null);
   let imageUrl = "";
   let videoUrl = "";
 
@@ -88,6 +91,11 @@ const UploadCourse = () => {
 
   return (
     <Container>
+      {showCreateExam ? (
+        <CreateExam hiddenCard={() => setShowCreateExam(false)} />
+      ) : (
+        ""
+      )}
       <UploadCard>
         <h1>Upload Course</h1>
         <ContentCard onSubmit={(e) => e.preventDefault()}>
@@ -123,6 +131,11 @@ const UploadCourse = () => {
                 }}
               />
               <LabelFile htmlFor="videoinput">Upload Video</LabelFile>
+            </UploadContainer>
+            <UploadContainer>
+              <ButtonExam onClick={() => setShowCreateExam(true)}>
+                Create Exam
+              </ButtonExam>
             </UploadContainer>
           </FileContainer>
           <ButtonForm onClick={uploadImage}>Send</ButtonForm>

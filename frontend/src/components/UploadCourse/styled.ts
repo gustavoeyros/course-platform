@@ -60,3 +60,11 @@ export const UploadContainer = styled.div`
   width: 100%;
   margin-top: 25px;
 `;
+
+export const ButtonExam = styled.div`
+  padding: 10px 56px;
+  background-color: white;
+  color: black;
+  border-radius: 4px;
+  cursor: pointer;
+`;
