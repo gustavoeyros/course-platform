@@ -44,6 +44,14 @@ const CourseExam = () => {
       });
   };
 
+  const checkAnswer = (option: string, answer: string) => {
+    if (option === answer) {
+      console.log("acertou");
+    } else {
+      console.log("errou");
+    }
+  };
+
   useEffect(() => {
     getCourseById();
   }, []);
@@ -65,7 +73,9 @@ const CourseExam = () => {
                     <p>{data.question}</p>
                     {data.options.map((option) => (
                       <ul>
-                        <li>{option}</li>
+                        <li onClick={() => checkAnswer(option, data.answer)}>
+                          {option}
+                        </li>
                       </ul>
                     ))}
                   </IndividualQuestion>

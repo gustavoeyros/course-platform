@@ -40,4 +40,8 @@ export const QuestionsContainer = styled.div`
   flex-direction: column;
 `;
 
-export const IndividualQuestion = styled.div``;
+export const IndividualQuestion = styled.div`
+  & li {
+    cursor: pointer;
+  }
+`;
