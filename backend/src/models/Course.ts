@@ -5,6 +5,7 @@ interface ICourse {
   video_url: string;
   description: string;
   students: [];
+  questions: [];
 }
 
 const courseSchema = new Schema<ICourse>({
@@ -12,6 +13,14 @@ const courseSchema = new Schema<ICourse>({
   video_url: String,
   description: String,
   students: [],
+  questions: [
+    {
+      questionId: Number,
+      question: String,
+      options: [],
+      answer: String,
+    },
+  ],
 });
 
 const Course = model<ICourse>("Course", courseSchema);
