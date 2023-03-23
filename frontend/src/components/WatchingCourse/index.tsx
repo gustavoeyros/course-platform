@@ -26,8 +26,6 @@ const WatchingCourse = () => {
   const token = user.token;
   const userId = user.id;
 
-  let courseId: string;
-
   const getCourseById = () => {
     setIsLoading(true);
     fetch(`http://localhost:3000/course/${id}`, {
@@ -44,7 +42,6 @@ const WatchingCourse = () => {
       .then((data) => {
         setCourse(data.course);
         setIsLoading(false);
-        courseId = data.course._id;
         getCompletedCourses();
       });
   };
@@ -77,7 +74,7 @@ const WatchingCourse = () => {
   const finishedVideoHandler = () => {
     setFinishCourse(true);
     fetch(
-      `http://localhost:3000/users/mycourses/finishCourse/${userId}/${courseId}`,
+      `http://localhost:3000/users/mycourses/finishCourse/${userId}/${course?._id}`,
       {
         method: "PATCH",
         headers: {
