@@ -16,14 +16,23 @@ interface ICreateExam {
 
 const CreateExam = ({ hiddenCard }: ICreateExam) => {
   const [inputs, setInputs] = useState<any>([]);
+  const [inputValues, setInputValues] = useState<any>([]);
+
   const titleRef = useRef(null);
-  const optionsRef = useRef(null);
+
   const answerRef = useRef(null);
 
-  const createExamHandler = () => {};
+  const createExamHandler = () => {
+    console.log(inputValues);
+  };
 
   const addOptionsHandler = () => {
     setInputs([...inputs, inputs]);
+  };
+
+  const saveOptionsHandler = (e: any) => {
+    const value = e.target.value;
+    setInputValues([...inputValues, value]);
   };
 
   return (
@@ -33,7 +42,11 @@ const CreateExam = ({ hiddenCard }: ICreateExam) => {
         <InputForm type="text" placeholder="title" inputRef={titleRef} />
 
         <AddOptionsContainer>
-          <InputForm type="text" placeholder="options" inputRef={titleRef} />
+          <InputForm
+            type="text"
+            placeholder="options"
+            onChange={saveOptionsHandler}
+          />
           <IconContainer>
             <GrAddCircle onClick={addOptionsHandler} />
           </IconContainer>
@@ -41,7 +54,11 @@ const CreateExam = ({ hiddenCard }: ICreateExam) => {
 
         {inputs.map(() => (
           <AddOptionsContainer>
-            <InputForm type="text" placeholder="options" inputRef={titleRef} />
+            <InputForm
+              type="text"
+              placeholder="options"
+              onChange={saveOptionsHandler}
+            />
             <IconContainer>
               <GrAddCircle onClick={addOptionsHandler} />
             </IconContainer>
