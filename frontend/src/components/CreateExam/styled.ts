@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { GrAddCircle } from "react-icons/gr";
 
 export const Backdrop = styled.div`
   display: flex;
@@ -21,3 +22,39 @@ export const Container = styled.div`
   height: 450px;
   background-color: #8fb9aa;
 `;
+
+export const ExitButton = styled.button`
+  background-color: #fd5249;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
+  color: white;
+`;
+
+export const SendButton = styled.button`
+  background-color: #68a33e;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
+  color: white;
+`;
+
+export const AddOptionsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  & i {
+    position: absolute;
+    margin-left: 180px;
+  }
+`;
+
+export const IconContainer = styled.i``;
