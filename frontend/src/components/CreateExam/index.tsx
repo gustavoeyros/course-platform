@@ -15,24 +15,26 @@ interface ICreateExam {
 }
 
 const CreateExam = ({ hiddenCard }: ICreateExam) => {
-  const [inputs, setInputs] = useState<any>([]);
-  const [inputValues, setInputValues] = useState<any>([]);
+  const [inputs, setInputs] = useState<any>([{}]);
 
   const titleRef = useRef(null);
 
   const answerRef = useRef(null);
 
+  const handleInputChange = (index: any, event: any) => {
+    const values = [...inputs];
+    values[index].value = event.target.value;
+    setInputs(values);
+  };
+
+  const handleAddInput = () => {
+    const values = [...inputs];
+    values.push({ value: "" });
+    setInputs(values);
+  };
+
   const createExamHandler = () => {
-    console.log(inputValues);
-  };
-
-  const addOptionsHandler = () => {
-    setInputs([...inputs, inputs]);
-  };
-
-  const saveOptionsHandler = (e: any) => {
-    const value = e.target.value;
-    setInputValues([...inputValues, value]);
+    console.log(inputs);
   };
 
   return (
@@ -41,32 +43,22 @@ const CreateExam = ({ hiddenCard }: ICreateExam) => {
         <ExitButton onClick={hiddenCard}>Sair</ExitButton>
         <InputForm type="text" placeholder="title" inputRef={titleRef} />
 
-        <AddOptionsContainer>
-          <InputForm
-            type="text"
-            placeholder="options"
-            onChange={saveOptionsHandler}
-          />
-          <IconContainer>
-            <GrAddCircle onClick={addOptionsHandler} />
-          </IconContainer>
-        </AddOptionsContainer>
-
-        {inputs.map(() => (
+        {inputs.map((input: any, index: any) => (
           <AddOptionsContainer>
             <InputForm
               type="text"
               placeholder="options"
-              onChange={saveOptionsHandler}
+              value={input.value}
+              onChange={(event) => handleInputChange(index, event)}
             />
             <IconContainer>
-              <GrAddCircle onClick={addOptionsHandler} />
+              <GrAddCircle onClick={handleAddInput} />
             </IconContainer>
           </AddOptionsContainer>
         ))}
 
         <InputForm type="text" placeholder="answer" inputRef={answerRef} />
-        <SendButton onClick={createExamHandler}>Send exam</SendButton>
+        <SendButton onClick={createExamHandler}>Save exam</SendButton>
       </Container>
     </Backdrop>
   );

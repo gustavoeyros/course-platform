@@ -58,3 +58,5 @@ export const AddOptionsContainer = styled.div`
 `;
 
 export const IconContainer = styled.i``;
+
+export const Teste = styled.input``;
