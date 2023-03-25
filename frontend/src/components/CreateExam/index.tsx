@@ -12,18 +12,17 @@ import { GrAddCircle } from "react-icons/gr";
 
 interface ICreateExam {
   hiddenCard: () => void;
+  setQuestions: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-const CreateExam = ({ hiddenCard }: ICreateExam) => {
+const CreateExam = ({ hiddenCard, setQuestions }: ICreateExam) => {
   const [inputs, setInputs] = useState<any>([{}]);
-
-  const titleRef = useRef(null);
-
-  const answerRef = useRef(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const answerRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (index: any, event: any) => {
     const values = [...inputs];
-    values[index].value = event.target.value;
+    values[index] = event.target.value;
     setInputs(values);
   };
 
@@ -34,7 +33,14 @@ const CreateExam = ({ hiddenCard }: ICreateExam) => {
   };
 
   const createExamHandler = () => {
-    console.log(inputs);
+    const examCourse = {
+      questionId: 1,
+      question: titleRef.current?.value,
+      options: inputs,
+      answer: answerRef.current?.value,
+    };
+    setQuestions(examCourse);
+    hiddenCard();
   };
 
   return (

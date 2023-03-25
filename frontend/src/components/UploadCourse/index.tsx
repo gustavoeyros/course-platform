@@ -15,6 +15,7 @@ import CreateExam from "../CreateExam";
 const UploadCourse = () => {
   const [image, setImage] = useState<any>("");
   const [video, setVideo] = useState<any>("");
+  const [questions, setQuestions] = useState({});
   const [showCreateExam, setShowCreateExam] = useState<boolean | null>(null);
   let imageUrl = "";
   let videoUrl = "";
@@ -67,6 +68,7 @@ const UploadCourse = () => {
       image_url: imageUrl,
       video_url: videoUrl,
       description: descriptionRef.current?.value,
+      questions: [questions],
     };
 
     const user = JSON.parse(localStorage.getItem("user") || "");
@@ -92,7 +94,10 @@ const UploadCourse = () => {
   return (
     <Container>
       {showCreateExam ? (
-        <CreateExam hiddenCard={() => setShowCreateExam(false)} />
+        <CreateExam
+          hiddenCard={() => setShowCreateExam(false)}
+          setQuestions={setQuestions}
+        />
       ) : (
         ""
       )}
