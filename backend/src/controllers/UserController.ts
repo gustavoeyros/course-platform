@@ -133,9 +133,6 @@ export default class UserController {
     const { userId, courseId } = req.params;
     const user = await User.findById(userId);
     const course = await Course.findById(courseId);
-    if (!course) {
-      return res.status(422).json({ message: "Curso não encontrado" });
-    }
     if (!user) {
       return res.status(422).json({ message: "Usuário não encontrado" });
     }
@@ -155,10 +152,10 @@ export default class UserController {
         { $pull: { students: user?.id } }
       );
 
-      res.status(200).json({ message: "Desmatriculado com sucesso!" });
+      return res.status(200).json({ message: "Desmatriculado com sucesso!" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Erro no servidor!" });
+      return res.status(500).json({ message: "Erro no servidor!" });
     }
   }
 
