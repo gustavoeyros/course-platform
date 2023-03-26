@@ -12,47 +12,67 @@ cloudinary.config({
 
 export default class CourseController {
   static async upload(req: Request, res: Response) {
-    const { image_url, video_url, description } = req.body;
+    const { image_url, video_url, description, questions } = req.body;
     if (!image_url) {
-      res.status(422).json({ message: "O campo de imagem é obrigatório" });
+      return res
+        .status(422)
+        .json({ message: "O campo de imagem é obrigatório" });
     }
     if (!video_url) {
-      res.status(422).json({ message: "O campo de vídeo é obrigatório" });
+      return res
+        .status(422)
+        .json({ message: "O campo de vídeo é obrigatório" });
     }
     if (!description) {
-      res.status(422).json({ message: "O campo de descrição é obrigatório" });
+      return res
+        .status(422)
+        .json({ message: "O campo de descrição é obrigatório" });
+    }
+    if (!questions) {
+      return res
+        .status(422)
+        .json({ message: "O campo de questões é obrigatório" });
     }
 
     const course = new Course({
       image_url,
       video_url,
       description,
+      questions,
     });
     try {
       await course.save();
-      res.status(201).json({ message: "Vídeo cadastrado com sucesso!" });
+      return res.status(201).json({ message: "Curso cadastrado com sucesso!" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ messag: "Erro no servidor!" });
+      return res.status(500).json({ messag: "Erro no servidor!" });
     }
   }
 
   static async allCourses(req: Request, res: Response) {
     const courses = await Course.find();
-    res.status(200).json({ message: courses });
+    if (!courses) {
+      return res.status(422).json({ message: "Nenhum curso encontrado" });
+    }
+    try {
+      return res.status(200).json({ message: courses });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Erro no servidor!" });
+    }
   }
 
   static async getCourseById(req: Request, res: Response) {
     const { id } = req.params;
     const course = await Course.findById(id);
     if (!course) {
-      res.status(422).json({ message: "Curso não encontrado" });
+      return res.status(422).json({ message: "Curso não encontrado" });
     }
     try {
-      res.status(200).json({ course });
+      return res.status(200).json({ course });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Erro no servidor!" });
+      return res.status(500).json({ message: "Erro no servidor!" });
     }
   }
 }

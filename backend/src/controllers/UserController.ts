@@ -134,10 +134,10 @@ export default class UserController {
     const user = await User.findById(userId);
     const course = await Course.findById(courseId);
     if (!course) {
-      res.status(422).json({ message: "Curso não encontrado" });
+      return res.status(422).json({ message: "Curso não encontrado" });
     }
     if (!user) {
-      res.status(422).json({ message: "Usuário não encontrado" });
+      return res.status(422).json({ message: "Usuário não encontrado" });
     }
 
     const formatedID = new mongoose.Types.ObjectId(courseId);
