@@ -4,7 +4,7 @@ interface IInput {
   type: string;
   placeholder: string;
   hasEmpty?: boolean | null | undefined;
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement> | ((p: any) => any);
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: any;
 }

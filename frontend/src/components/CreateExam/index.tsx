@@ -19,6 +19,7 @@ const CreateExam = ({ hiddenCard, setQuestions }: ICreateExam) => {
   const [inputs, setInputs] = useState<any>([{}]);
   const titleRef = useRef<HTMLInputElement>(null);
   const answerRef = useRef<HTMLInputElement>(null);
+  const optionsRef = useRef<any>([]);
   const [exam, setExam] = useState<any>([]);
 
   const handleInputChange = (index: any, event: any) => {
@@ -43,6 +44,10 @@ const CreateExam = ({ hiddenCard, setQuestions }: ICreateExam) => {
 
     setExam((prevExam: []) => [...prevExam, examCourse]);
     console.log(exam);
+    setInputs([{}]);
+    titleRef.current!.value = "";
+    answerRef.current!.value = "";
+    optionsRef.current.forEach((ref: any) => (ref.value = ""));
   };
 
   useEffect(() => {
@@ -61,6 +66,7 @@ const CreateExam = ({ hiddenCard, setQuestions }: ICreateExam) => {
               type="text"
               placeholder="options"
               value={input.value}
+              inputRef={(ref: any) => (optionsRef.current[index] = ref)}
               onChange={(event) => handleInputChange(index, event)}
             />
             <IconContainer>
