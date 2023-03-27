@@ -15,7 +15,7 @@ import CreateExam from "../CreateExam";
 const UploadCourse = () => {
   const [image, setImage] = useState<any>("");
   const [video, setVideo] = useState<any>("");
-  const [questions, setQuestions] = useState({});
+  const [questions, setQuestions] = useState<any>([]);
   const [showCreateExam, setShowCreateExam] = useState<boolean | null>(null);
   let imageUrl = "";
   let videoUrl = "";
@@ -64,7 +64,8 @@ const UploadCourse = () => {
   };
 
   const contentUrlToDatabase = async () => {
-    const data = {
+    console.log("questions", questions);
+    /*     const data = {
       image_url: imageUrl,
       video_url: videoUrl,
       description: descriptionRef.current?.value,
@@ -88,7 +89,7 @@ const UploadCourse = () => {
       })
       .then((data) => {
         console.log(data);
-      });
+      }); */
   };
 
   return (

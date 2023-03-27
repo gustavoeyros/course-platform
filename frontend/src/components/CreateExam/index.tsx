@@ -7,18 +7,19 @@ import {
   IconContainer,
 } from "./styled";
 import InputForm from "../InputForm";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GrAddCircle } from "react-icons/gr";
 
 interface ICreateExam {
   hiddenCard: () => void;
-  setQuestions: React.Dispatch<React.SetStateAction<{}>>;
+  setQuestions: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const CreateExam = ({ hiddenCard, setQuestions }: ICreateExam) => {
   const [inputs, setInputs] = useState<any>([{}]);
   const titleRef = useRef<HTMLInputElement>(null);
   const answerRef = useRef<HTMLInputElement>(null);
+  const [exam, setExam] = useState<any>([]);
 
   const handleInputChange = (index: any, event: any) => {
     const values = [...inputs];
@@ -34,19 +35,24 @@ const CreateExam = ({ hiddenCard, setQuestions }: ICreateExam) => {
 
   const createExamHandler = () => {
     const examCourse = {
-      questionId: 1,
+      questionId: exam.length,
       question: titleRef.current?.value,
       options: inputs,
       answer: answerRef.current?.value,
     };
-    setQuestions(examCourse);
-    hiddenCard();
+
+    setExam((prevExam: []) => [...prevExam, examCourse]);
+    console.log(exam);
   };
+
+  useEffect(() => {
+    setQuestions(exam);
+  }, [exam]);
 
   return (
     <Backdrop>
       <Container>
-        <ExitButton onClick={hiddenCard}>Sair</ExitButton>
+        <ExitButton onClick={hiddenCard}>End exam</ExitButton>
         <InputForm type="text" placeholder="title" inputRef={titleRef} />
 
         {inputs.map((input: any, index: any) => (
