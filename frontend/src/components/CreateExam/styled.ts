@@ -43,6 +43,11 @@ export const SendButton = styled.button`
   width: 200px;
   height: 50px;
   color: white;
+
+  &:hover {
+    background-color: #7bbc4e;
+    transition: 0.5s;
+  }
 `;
 
 export const AddOptionsContainer = styled.div`
