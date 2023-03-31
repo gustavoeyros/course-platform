@@ -27,6 +27,15 @@ export class UsersService {
       });
     }
 
+    const userExists = this.userModel.findOne({ email: userInfo.email });
+
+    if (userExists) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(),
+        description: `O usuário já existe!`,
+      });
+    }
+
     const user = new this.userModel(createUserDto);
     return user.save();
   }
