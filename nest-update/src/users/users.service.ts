@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { BadRequestException, Body, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,20 +8,27 @@ import { User, UserDocument } from './entities/user.entity';
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
-  create(@Body() req) {
-    /*    const user = new this.userModel(createUserDto);
-    return user.save(); */
-    const { name, email, password, confirmpassword } = req;
+
+  create(@Body() createUserDto: CreateUserDto, @Body() userInfo: any) {
     const requiredFields = ['name', 'email', 'password'];
     requiredFields.some((field) => {
-      if (!req[field]) {
-        console.log(`O campo ${field} é obrigatório`);
+      if (!userInfo[field]) {
+        throw new BadRequestException('Something bad happened', {
+          cause: new Error(),
+          description: `O campo ${field} é obrigatório!`,
+        });
       }
     });
 
-    if (password !== confirmpassword) {
-      console.log('as senhas não batem');
+    if (userInfo.password !== userInfo.confirmpassword) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(),
+        description: `As senhas devem ser iguais!`,
+      });
     }
+
+    const user = new this.userModel(createUserDto);
+    return user.save();
   }
 
   findAll() {
