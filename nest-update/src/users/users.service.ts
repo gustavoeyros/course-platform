@@ -4,12 +4,13 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
+import { hashPassword } from 'src/utils/bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  create(@Body() createUserDto: CreateUserDto, @Body() userInfo: any) {
+  async create(@Body() createUserDto: CreateUserDto, @Body() userInfo: any) {
     const requiredFields = ['name', 'email', 'password'];
     requiredFields.some((field) => {
       if (!userInfo[field]) {
@@ -27,7 +28,7 @@ export class UsersService {
       });
     }
 
-    const userExists = this.userModel.findOne({ email: userInfo.email });
+    const userExists = await this.userModel.findOne({ email: userInfo.email });
 
     if (userExists) {
       throw new BadRequestException('Something bad happened', {
@@ -36,8 +37,10 @@ export class UsersService {
       });
     }
 
-    const user = new this.userModel(createUserDto);
-    return user.save();
+    const password = hashPassword(userInfo.password);
+    const newUser = new this.userModel({ ...createUserDto, password });
+
+    return newUser.save();
   }
 
   findAll() {
