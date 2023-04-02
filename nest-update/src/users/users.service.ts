@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
-import { hashPassword } from 'src/utils/bcrypt';
+import { hashPassword, comparePasswords } from 'src/utils/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -62,6 +62,15 @@ export class UsersService {
       throw new BadRequestException('Something bad happened', {
         cause: new Error(),
         description: `Usuário não encontrado!`,
+      });
+    }
+
+    const checkPass = comparePasswords(password, userExists.password);
+
+    if (!checkPass) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(),
+        description: `Usuário ou senha incorretos!`,
       });
     }
   }
