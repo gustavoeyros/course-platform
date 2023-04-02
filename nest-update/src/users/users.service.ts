@@ -43,6 +43,29 @@ export class UsersService {
     return newUser.save();
   }
 
+  async login(@Body() { email, password }) {
+    const userExists = await this.userModel.findOne({ email: email });
+
+    if (!email) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(),
+        description: `O campo email é obrigatório!`,
+      });
+    }
+    if (!password) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(),
+        description: `O campo senha é obrigatório!`,
+      });
+    }
+    if (!userExists) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(),
+        description: `Usuário não encontrado!`,
+      });
+    }
+  }
+
   findAll() {
     return this.userModel.find();
   }
