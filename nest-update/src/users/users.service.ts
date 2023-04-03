@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
 import { hashPassword, comparePasswords } from 'src/utils/bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UsersService {
@@ -72,6 +73,24 @@ export class UsersService {
         cause: new Error(),
         description: `Usuário ou senha incorretos!`,
       });
+    }
+
+    try {
+      const secret = process.env.SECRET;
+      const token = jwt.sign(
+        {
+          id: userExists._id,
+        },
+        secret,
+      );
+      const data = {
+        token,
+        id: userExists.id,
+      };
+      console.log('Logado com sucesso!', data);
+    } catch (error) {
+      console.log(error);
+      // res.status(500).json({ messag: 'Erro no servidor!' });
     }
   }
 
