@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Injectable } from '@nestjs/common';
+import { BadRequestException, Body, Injectable, Res } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
 import { hashPassword, comparePasswords } from 'src/utils/bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { Response } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -44,7 +45,7 @@ export class UsersService {
     return newUser.save();
   }
 
-  async login(@Body() { email, password }) {
+  async login(@Body() { email, password }, @Res() res: Response) {
     const userExists = await this.userModel.findOne({ email: email });
 
     if (!email) {
@@ -87,10 +88,10 @@ export class UsersService {
         token,
         id: userExists.id,
       };
-      console.log('Logado com sucesso!', data);
+      res.status(200).json({ message: 'Logado com sucesso!', data });
     } catch (error) {
       console.log(error);
-      // res.status(500).json({ messag: 'Erro no servidor!' });
+      res.status(500).json({ messag: 'Erro no servidor!' });
     }
   }
 
