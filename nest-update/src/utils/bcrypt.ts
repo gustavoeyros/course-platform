@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as bcrypt from 'bcrypt';
 
 export function hashPassword(password: string) {
