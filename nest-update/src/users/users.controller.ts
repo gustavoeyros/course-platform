@@ -35,6 +35,15 @@ export class UsersController {
     return this.usersService.login({ email, password }, res);
   }
 
+  @Post('/enroll/:userId/:courseId')
+  enroll(
+    @Param('userId') userId: string,
+    @Param('courseId') courseId: string,
+    @Res() res: Response,
+  ) {
+    return this.usersService.enroll(userId, courseId, res);
+  }
+
   @Get()
   findAll() {
     return this.usersService.findAll();

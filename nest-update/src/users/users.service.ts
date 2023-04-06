@@ -95,6 +95,33 @@ export class UsersService {
     }
   }
 
+  async enroll(userId: string, courseId: string, res: Response) {
+    const user = await this.userModel.findById(userId);
+    const course = await this.userModel.findById(courseId);
+    if (!course) {
+      res.status(422).json({ message: 'Curso não encontrado' });
+    }
+    if (!user) {
+      res.status(422).json({ message: 'Usuário não encontrado' });
+    }
+    try {
+      await this.userModel.findOneAndUpdate(
+        { _id: user?.id },
+        { $push: { enrolledCourses: course } },
+      );
+      await this.userModel.findOneAndUpdate(
+        {
+          _id: course?.id,
+        },
+        { $push: { students: user?.id } },
+      );
+      res.status(200).json({ message: 'Matriculado com sucesso!' });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Erro no servidor!' });
+    }
+  }
+
   findAll() {
     return this.userModel.find();
   }
