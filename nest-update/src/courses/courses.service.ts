@@ -51,8 +51,17 @@ export class CoursesService {
     }
   }
 
-  findAll() {
-    return `This action returns all courses`;
+  async findAll(res: Response) {
+    const courses = await this.courseModel.find();
+    if (!courses) {
+      return res.status(422).json({ message: 'Nenhum curso encontrado' });
+    }
+    try {
+      return res.status(200).json({ message: courses });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Erro no servidor!' });
+    }
   }
 
   findOne(id: number) {

@@ -22,9 +22,9 @@ export class CoursesController {
     return this.coursesService.create(createCourseDto, res);
   }
 
-  @Get()
-  findAll() {
-    return this.coursesService.findAll();
+  @Get('all')
+  findAll(@Res() res: Response) {
+    return this.coursesService.findAll(res);
   }
 
   @Get(':id')
