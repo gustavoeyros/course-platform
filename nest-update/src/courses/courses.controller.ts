@@ -28,8 +28,8 @@ export class CoursesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(+id);
+  findOne(@Param('id') id: string, @Res() res: Response) {
+    return this.coursesService.findOne(id, res);
   }
 
   @Patch(':id')

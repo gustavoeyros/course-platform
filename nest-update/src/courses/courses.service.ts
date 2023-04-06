@@ -64,8 +64,17 @@ export class CoursesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
+  async findOne(id: string, res: Response) {
+    const course = await this.courseModel.findById(id);
+    if (!course) {
+      return res.status(422).json({ message: 'Curso não encontrado' });
+    }
+    try {
+      return res.status(200).json({ course });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Erro no servidor!' });
+    }
   }
 
   update(id: number, updateCourseDto: UpdateCourseDto) {
