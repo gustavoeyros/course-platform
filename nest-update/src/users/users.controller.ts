@@ -44,6 +44,10 @@ export class UsersController {
     return this.usersService.enroll(userId, courseId, res);
   }
 
+  @Get('/mycourses/:id')
+  myCourses(@Param('id') id: string, @Res() res: Response) {
+    return this.usersService.myCourses(id, res);
+  }
   @Get()
   findAll() {
     return this.usersService.findAll();

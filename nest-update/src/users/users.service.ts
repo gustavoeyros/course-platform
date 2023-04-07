@@ -122,6 +122,18 @@ export class UsersService {
     }
   }
 
+  async myCourses(id: string, res: Response) {
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      res.status(422).json({ message: 'Usuário não encontrado' });
+    }
+    try {
+      res.status(200).json({ user });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Erro no servidor!' });
+    }
+  }
   findAll() {
     return this.userModel.find();
   }
