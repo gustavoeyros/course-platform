@@ -7,10 +7,15 @@ import { User, UserDocument } from './entities/user.entity';
 import { hashPassword, comparePasswords } from 'src/utils/bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Response } from 'express';
+import { Course, CourseDocument } from 'src/courses/entities/course.entity';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Course.name) private courseModel: Model<CourseDocument>,
+  ) {}
 
   async create(@Body() createUserDto: CreateUserDto, @Body() userInfo: any) {
     const requiredFields = ['name', 'email', 'password'];
@@ -134,6 +139,36 @@ export class UsersService {
       res.status(500).json({ message: 'Erro no servidor!' });
     }
   }
+
+  async unenroll(userId: string, courseId: string, res: Response) {
+    const user = await this.userModel.findById(userId);
+    const course = await this.courseModel.findById(courseId);
+    if (!user) {
+      return res.status(422).json({ message: 'Usuário não encontrado' });
+    }
+
+    const formatedID = new mongoose.Types.ObjectId(courseId);
+
+    try {
+      await this.userModel.findOneAndUpdate(
+        { _id: user?.id },
+        { $pull: { enrolledCourses: { _id: formatedID } } },
+      );
+
+      await this.courseModel.findOneAndUpdate(
+        {
+          _id: course?.id,
+        },
+        { $pull: { students: user?.id } },
+      );
+
+      return res.status(200).json({ message: 'Desmatriculado com sucesso!' });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Erro no servidor!' });
+    }
+  }
+
   findAll() {
     return this.userModel.find();
   }

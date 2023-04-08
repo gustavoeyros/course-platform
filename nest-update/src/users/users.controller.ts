@@ -58,6 +58,15 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
+  @Patch('unenroll/:userId/:courseId')
+  unenroll(
+    @Param('userId') userId: string,
+    @Param('courseId') courseId: string,
+    @Res() res: Response,
+  ) {
+    return this.usersService.unenroll(userId, courseId, res);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
