@@ -168,6 +168,28 @@ export class UsersService {
       return res.status(500).json({ message: 'Erro no servidor!' });
     }
   }
+  async finishCourse(userId: string, courseId: string, res: Response) {
+    const user = await this.userModel.findById(userId);
+    const course = await this.courseModel.findById(courseId);
+    if (!course) {
+      res.status(422).json({ message: 'Curso não encontrado' });
+    }
+    if (!user) {
+      res.status(422).json({ message: 'Usuário não encontrado' });
+    }
+
+    try {
+      await this.userModel.findOneAndUpdate(
+        { _id: user?.id },
+        { $push: { finishedCourses: { _id: courseId } } },
+      );
+
+      res.status(200).json({ message: 'Curso finalizado com sucesso!' });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Erro no servidor!' });
+    }
+  }
 
   findAll() {
     return this.userModel.find();
