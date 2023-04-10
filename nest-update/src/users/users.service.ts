@@ -191,6 +191,15 @@ export class UsersService {
     }
   }
 
+  async getFinishedCourses(userId: string, res: Response) {
+    const user = await this.userModel.findById(userId);
+
+    if (!user) {
+      res.status(422).json({ message: 'Usuário não encontrado' });
+    }
+    res.status(200).json({ finishedCourses: user?.finishedCourses });
+  }
+
   findAll() {
     return this.userModel.find();
   }

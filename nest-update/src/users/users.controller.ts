@@ -75,9 +75,15 @@ export class UsersController {
   ) {
     return this.usersService.finishCourse(userId, courseId, res);
   }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Get('/finishedcourses/:userId')
+  getFinishedCourses(@Param('userId') userId: string, @Res() res: Response) {
+    return this.usersService.getFinishedCourses(userId, res);
   }
 
   @Delete(':id')
